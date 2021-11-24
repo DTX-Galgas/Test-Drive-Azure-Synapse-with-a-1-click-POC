@@ -273,8 +273,8 @@
 							}
 						],
 						"policy": {
-							"timeout": "0.00:05:00",
-							"retry": 3,
+							"timeout": "0.00:01:00",
+							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
@@ -1149,16 +1149,20 @@
 			"properties": {
 				"parameters": {
 					"SynapseWorkspaceName": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "dataexkifklpyrx4bvapocws1"
 					},
 					"SQLDedicatedPoolName": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "dataexkifklpyrx4bvapocws1p1"
 					},
 					"keyVaultName": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "kvdataexkifklpyrx4bvapoc"
 					},
 					"SQLLoginUsername": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "dbadataex"
 					}
 				},
 				"annotations": [],
@@ -1197,7 +1201,8 @@
 			"properties": {
 				"parameters": {
 					"keyVaultName": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "kvdataexkifklpyrx4bvapoc"
 					}
 				},
 				"annotations": [],
@@ -1220,7 +1225,8 @@
 						"dataFlowProperties": {
 							"computeType": "General",
 							"coreCount": 8,
-							"timeToLive": 0
+							"timeToLive": 0,
+							"cleanup": true
 						}
 					}
 				},
@@ -1292,6 +1298,66 @@
 			"properties": {
 				"type": "ManagedIdentity",
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "select * from sys.databases",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "dataexkifklpyrx4bvapocws1p1",
+						"poolName": "dataexkifklpyrx4bvapocws1p1"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 2')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE USER [User]\n\tWITHOUT LOGIN\n\tWITH DEFAULT_SCHEMA = dbo\n\nGO\n\nGRANT CONNECT TO [User]\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "dataexkifklpyrx4bvapocws1p1",
+						"poolName": "dataexkifklpyrx4bvapocws1p1"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 3')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "CREATE USER [dataexkifklpyrx4bvapocws1] FROM EXTERNAL PROVIDER \nGO\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "dataexkifklpyrx4bvapocws1p1",
+						"poolName": "dataexkifklpyrx4bvapocws1p1"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
 			},
 			"dependsOn": []
 		},
