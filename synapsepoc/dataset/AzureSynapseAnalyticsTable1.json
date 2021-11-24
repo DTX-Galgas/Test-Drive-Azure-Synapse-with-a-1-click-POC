@@ -2,7 +2,7 @@
 	"name": "AzureSynapseAnalyticsTable1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "TripFaresSynapseAnalyticsLinkedService",
+			"referenceName": "TripFaresSynapseAnalyticsLinkedService2",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
