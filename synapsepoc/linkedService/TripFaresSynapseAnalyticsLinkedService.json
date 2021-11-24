@@ -3,16 +3,20 @@
 	"properties": {
 		"parameters": {
 			"SynapseWorkspaceName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dataexkifklpyrx4bvapocws1"
 			},
 			"SQLDedicatedPoolName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dataexkifklpyrx4bvapocws1p1"
 			},
 			"keyVaultName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "kvdataexkifklpyrx4bvapoc"
 			},
 			"SQLLoginUsername": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dbadataex"
 			}
 		},
 		"annotations": [],
