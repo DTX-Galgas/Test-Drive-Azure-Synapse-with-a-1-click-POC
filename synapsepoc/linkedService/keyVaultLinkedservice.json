@@ -3,7 +3,8 @@
 	"properties": {
 		"parameters": {
 			"keyVaultName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "kvdataexkifklpyrx4bvapoc"
 			}
 		},
 		"annotations": [],
