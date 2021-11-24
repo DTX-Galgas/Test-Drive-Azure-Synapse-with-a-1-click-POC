@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 2",
+	"properties": {
+		"content": {
+			"query": "CREATE USER [User]\n\tWITHOUT LOGIN\n\tWITH DEFAULT_SCHEMA = dbo\n\nGO\n\nGRANT CONNECT TO [User]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataexkifklpyrx4bvapocws1p1",
+				"poolName": "dataexkifklpyrx4bvapocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
