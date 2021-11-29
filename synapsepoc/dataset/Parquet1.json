@@ -1,0 +1,22 @@
+{
+	"name": "Parquet1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TripFaresDataLakeStorageLinkedService",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"keyVaultName": "kvdataexkifklpyrx4bvapoc",
+				"datalakeAccountName": " dataexkifklpyrx4bvapoc"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
