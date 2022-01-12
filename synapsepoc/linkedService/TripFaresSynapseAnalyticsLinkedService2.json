@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "AzureSqlDW",
 		"typeProperties": {
-			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=dataexkifklpyrx4bvapocws1.sql.azuresynapse.net;initial catalog=dataexkifklpyrx4bvapocws1p1;user id=dbadataex",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNZTkFQU0VANTdGNjFCMEEtMEI3Ny00QjUyLUE5NkMtMTlFNTRDRTBDMENDXzk0YTZjMTRjLTUyYzItNDY1Yy1hNDQ1LTdhZDA1MjMxMjRkZSINCn0="
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=dataexjh77rhzzkvukipocws1.sql.azuresynapse.net;initial catalog=dataexjh77rhzzkvukipocws1p1;user id=dbadataex",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNZTkFQU0VAMTlFRjk1ODYtQTYxRC00RjRBLThCNTgtNjBFRTREQzM4NTQxXzVlZWFhOWUzLTYxZWYtNDU2Ni1iYzY1LTZmOTUxODFiYzMzYSINCn0="
 		},
 		"connectVia": {
 			"referenceName": "AutoResolveIntegrationRuntime",
