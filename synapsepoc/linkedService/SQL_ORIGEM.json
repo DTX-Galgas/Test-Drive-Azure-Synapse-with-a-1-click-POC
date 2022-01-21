@@ -1,0 +1,16 @@
+{
+	"name": "SQL_ORIGEM",
+	"type": "Microsoft.Synapse/workspaces/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=20.110.224.255;initial catalog=curso;user id=sa",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNZTkFQU0VAMTlFRjk1ODYtQTYxRC00RjRBLThCNTgtNjBFRTREQzM4NTQxXzk1MjE3Y2JkLWU0YWItNDU4Ni04NDg1LTE0ZTViMTRjMmI3YiINCn0="
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
