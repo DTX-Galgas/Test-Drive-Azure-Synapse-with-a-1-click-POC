@@ -1,0 +1,386 @@
+{
+	"name": "LOG PROCESSAMENTO",
+	"properties": {
+		"activities": [
+			{
+				"name": "LOG PROCESSAMENTO CVS",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "DATA_HORA_INICIO",
+								"value": {
+									"value": "@pipeline().parameters.PAR_DATA_HORA_INICIO",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "DATA_HORA_FINAL\t",
+								"value": {
+									"value": "@pipeline().parameters.PAR_DATA_HORA_FINAL",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "TEMPO_EXECUCAO",
+								"value": {
+									"value": "@pipeline().parameters.PAR_TEMPO_EXECUCAO",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "ID_EXECUCAO",
+								"value": {
+									"value": "@pipeline().parameters.PAR_ID_EXECUCAO",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "NOME_ADF",
+								"value": {
+									"value": "@pipeline().parameters.PAR_NOME_ADF",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "NOME_CONTAINER",
+								"value": {
+									"value": "@pipeline().parameters.PAR_NOME_CONTAINER",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "NOME_PIPELINE",
+								"value": {
+									"value": "@pipeline().parameters.PAR_NOME_PIPELINE",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "NOME_PROCESSO",
+								"value": {
+									"value": "@pipeline().parameters.PAR_NOME_PROCESSO",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "ID_TRIGGER",
+								"value": {
+									"value": "@pipeline().parameters.PAR_ID_TRIGGER",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "NOME_TRIGGER",
+								"value": {
+									"value": "@pipeline().parameters.PAR_NOME_TRIGGER",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "COMANDO_SQL",
+								"value": {
+									"value": "@pipeline().parameters.PAR_COMANDO_SQL",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "NOME_TABELA_ORIGEM",
+								"value": {
+									"value": "@pipeline().parameters.PAR_NOME_TABELA_ORIGEM",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "QUANTIDADE_REGISTROS",
+								"value": {
+									"value": "@pipeline().parameters.PAR_QUANTIDADE_REGISTROS",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "TIPO_FINALIZACAO",
+								"value": {
+									"value": "@pipeline().parameters.PAR_TIPO_FINALIZACAO",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "ERROR_CODE",
+								"value": {
+									"value": "@pipeline().parameters.PAR_ERROR_CODE",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "ERROR_MESSAGE",
+								"value": {
+									"value": "@pipeline().parameters.PAR_ERROR_MESSAGE",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "DATA_HORA_INICIO",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 1
+								}
+							},
+							{
+								"source": {
+									"name": "DATA_HORA_FINAL\t",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 2
+								}
+							},
+							{
+								"source": {
+									"name": "TEMPO_EXECUCAO",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 3
+								}
+							},
+							{
+								"source": {
+									"name": "ID_EXECUCAO",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 4
+								}
+							},
+							{
+								"source": {
+									"name": "NOME_ADF",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 5
+								}
+							},
+							{
+								"source": {
+									"name": "NOME_CONTAINER",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 6
+								}
+							},
+							{
+								"source": {
+									"name": "NOME_PIPELINE",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 7
+								}
+							},
+							{
+								"source": {
+									"name": "NOME_PROCESSO",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 8
+								}
+							},
+							{
+								"source": {
+									"name": "ID_TRIGGER",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 9
+								}
+							},
+							{
+								"source": {
+									"name": "NOME_TRIGGER",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 10
+								}
+							},
+							{
+								"source": {
+									"name": "COMANDO_SQL",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 11
+								}
+							},
+							{
+								"source": {
+									"name": "NOME_TABELA_ORIGEM",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 12
+								}
+							},
+							{
+								"source": {
+									"name": "QUANTIDADE_REGISTROS",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 13
+								}
+							},
+							{
+								"source": {
+									"name": "TIPO_FINALIZACAO",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 14
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_CODE",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 15
+								}
+							},
+							{
+								"source": {
+									"name": "ERROR_MESSAGE",
+									"type": "String"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 16
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_TEMPLATE",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"PAR_DATA_HORA_INICIO": {
+				"type": "string"
+			},
+			"PAR_DATA_HORA_FINAL": {
+				"type": "string"
+			},
+			"PAR_TEMPO_EXECUCAO": {
+				"type": "string"
+			},
+			"PAR_ID_EXECUCAO": {
+				"type": "string"
+			},
+			"PAR_NOME_ADF": {
+				"type": "string"
+			},
+			"PAR_NOME_CONTAINER": {
+				"type": "string"
+			},
+			"PAR_NOME_PIPELINE": {
+				"type": "string"
+			},
+			"PAR_NOME_PROCESSO": {
+				"type": "string"
+			},
+			"PAR_ID_TRIGGER": {
+				"type": "string"
+			},
+			"PAR_NOME_TRIGGER": {
+				"type": "string"
+			},
+			"PAR_COMANDO_SQL": {
+				"type": "string"
+			},
+			"PAR_NOME_TABELA_ORIGEM": {
+				"type": "string"
+			},
+			"PAR_QUANTIDADE_REGISTROS": {
+				"type": "string"
+			},
+			"PAR_TIPO_FINALIZACAO": {
+				"type": "string"
+			},
+			"PAR_ERROR_CODE": {
+				"type": "string"
+			},
+			"PAR_ERROR_MESSAGE": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "LOG PROCESSAMENTO"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-12-16T22:34:09Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
