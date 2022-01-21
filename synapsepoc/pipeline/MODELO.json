@@ -468,6 +468,10 @@
 										],
 										"userProperties": [],
 										"typeProperties": {
+											"pipeline": {
+												"referenceName": "LOG PROCESSAMENTO",
+												"type": "PipelineReference"
+											},
 											"waitOnCompletion": true,
 											"parameters": {
 												"PAR_DATA_HORA_INICIO": {
@@ -544,6 +548,10 @@
 										],
 										"userProperties": [],
 										"typeProperties": {
+											"pipeline": {
+												"referenceName": "LOG PROCESSAMENTO",
+												"type": "PipelineReference"
+											},
 											"waitOnCompletion": true,
 											"parameters": {
 												"PAR_DATA_HORA_INICIO": {
