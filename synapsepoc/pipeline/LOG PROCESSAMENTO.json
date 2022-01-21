@@ -348,7 +348,13 @@
 				"outputs": [
 					{
 						"referenceName": "DS_LOG_CSV",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"nome_arquivo": {
+								"value": "@concat('LOG_',\npipeline().parameters.PAR_TIPO_FINALIZACAO,'_',\npipeline().parameters.PAR_NOME_PROCESSO,'_',\nreplace(pipeline().parameters.PAR_NOME_TABELA_ORIGEM,'.','_'),'_',\nreplace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),'.csv')",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
