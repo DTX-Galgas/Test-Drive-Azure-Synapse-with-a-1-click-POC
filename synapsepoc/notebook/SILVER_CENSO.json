@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "SILVER_CENSO",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d8432122-9fff-4a79-8e95-24ea4b7689ec"
+				"spark.autotune.trackingId": "3c9f6f24-2159-43ef-8c82-116ea5a7ce92"
 			}
 		},
 		"metadata": {
@@ -74,16 +74,24 @@
 					"time = date.strftime(\"%H:%M:%S\")\r\n",
 					"date_time = date.strftime(\"%m/%d/%Y, %H:%M:%S\")\r\n",
 					"\r\n",
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/2022/01/21/*.parquet\"\r\n",
 					"\r\n",
-					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
-					"display(df.limit(10))\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/curso.parquet\"\r\n",
-					"df.write.parquet(path) "
+					""
 				],
-				"execution_count": 42
+				"execution_count": 50
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA CURSO CENSO **"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -91,11 +99,16 @@
 					"collapsed": false
 				},
 				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/2022/01/21/*.parquet\"\r\n",
 					"\r\n",
-					"df = spark.read.load('abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/2022/01/21/*.parquet', format='parquet')\r\n",
-					"display(df.limit(10))"
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"display(df.limit(2))\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
 				],
-				"execution_count": 34
+				"execution_count": 51
 			}
 		]
 	}
