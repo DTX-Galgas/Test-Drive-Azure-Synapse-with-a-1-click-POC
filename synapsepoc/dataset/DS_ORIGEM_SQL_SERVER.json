@@ -1,0 +1,12 @@
+{
+	"name": "DS_ORIGEM_SQL_SERVER",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL_ORIGEM",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}

@@ -162,6 +162,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 1
 								}
 							},
@@ -172,6 +173,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 2
 								}
 							},
@@ -182,6 +184,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 3
 								}
 							},
@@ -192,6 +195,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 4
 								}
 							},
@@ -202,6 +206,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 5
 								}
 							},
@@ -212,6 +217,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 6
 								}
 							},
@@ -222,6 +228,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 7
 								}
 							},
@@ -232,6 +239,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 8
 								}
 							},
@@ -242,6 +250,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 9
 								}
 							},
@@ -252,6 +261,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 10
 								}
 							},
@@ -262,6 +272,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 11
 								}
 							},
@@ -272,6 +283,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 12
 								}
 							},
@@ -282,6 +294,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 13
 								}
 							},
@@ -292,6 +305,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 14
 								}
 							},
@@ -302,6 +316,7 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 15
 								}
 							},
@@ -312,15 +327,27 @@
 								},
 								"sink": {
 									"type": "String",
+									"physicalType": "String",
 									"ordinal": 16
 								}
 							}
-						]
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
 					}
 				},
 				"inputs": [
 					{
 						"referenceName": "DS_TEMPLATE",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_LOG_CSV",
 						"type": "DatasetReference"
 					}
 				]
