@@ -1,0 +1,52 @@
+{
+	"name": "ORIGEM_DESTINO_ADVENTUREWORKS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TripFaresDataLakeStorageLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "adventure_works.json",
+				"folderPath": "origem_destino/database",
+				"fileSystem": "adf-config"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"nomeProcesso": {
+					"type": "string"
+				},
+				"habilitaETL": {
+					"type": "string"
+				},
+				"nomeSchemaOrigem": {
+					"type": "string"
+				},
+				"nomeTabelaOrigem": {
+					"type": "string"
+				},
+				"dataLakeContainer": {
+					"type": "string"
+				},
+				"dataLakeDirectory": {
+					"type": "string"
+				},
+				"nomeArquivo": {
+					"type": "string"
+				},
+				"extensao": {
+					"type": "string"
+				},
+				"tipoCarga": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
