@@ -77,7 +77,7 @@
 				}
 			},
 			{
-				"name": "EXECUTA COPIA",
+				"name": "EXECUTA COPIA BRONZE",
 				"type": "ForEach",
 				"dependsOn": [
 					{
