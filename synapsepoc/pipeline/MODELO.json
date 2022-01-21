@@ -1,0 +1,599 @@
+{
+	"name": "MODELO",
+	"properties": {
+		"activities": [
+			{
+				"name": "DATA HORA INICIO",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "VAR_DATA_HORA_INICIO",
+					"value": {
+						"value": "@replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',' ')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "LISTA ORIGEM DESTINO",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "DATA HORA INICIO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": false,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ORIGEM_DESTINO_ADVENTUREWORKS",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "HABILITA ETL IGUAL A SIM",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "LISTA ORIGEM DESTINO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('LISTA ORIGEM DESTINO').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item().habilitaETL,'SIM')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "EXECUTA COPIA",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "HABILITA ETL IGUAL A SIM",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('HABILITA ETL IGUAL A SIM').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "REPROCESSAMENTO",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().reprocessaCarga,'SIM')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "DATA REFERENCIA NORMAL",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "VAR_DATA_REFERENCIA",
+											"value": {
+												"value": "@concat(\nsubstring(replace(replace(replace(replace(string(\nconvertTimeZone(adddays(utcnow(),int(item().delta)),'UTC','E. South America Standard Time') )\n,'T',''),'.',''),'-',''),':',''),0,4),'-',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(adddays(utcnow(),\nint(item().delta)\n),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),4,2),'-',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(adddays(utcnow(),\nint(item().delta)\n),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),6,2)\n)",
+												"type": "Expression"
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "DATA REFERENCIA REPROCESSAMENTO",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "VAR_DATA_REFERENCIA",
+											"value": {
+												"value": "@item().dataReferencia",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "SE CARGA COMPLETA",
+							"type": "IfCondition",
+							"dependsOn": [
+								{
+									"activity": "REPROCESSAMENTO",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().tipoCarga,'COMPLETA')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "CARGA INCREMENTAL",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "@concat(\n'select * from ',\nitem().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem, ' where ',item().colunaDataReferencia, ' = ',\n'''',variables('VAR_DATA_REFERENCIA'),''''\n)",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false
+										},
+										"outputs": [
+											{
+												"referenceName": "RAW_DATA_PARQUET",
+												"type": "DatasetReference",
+												"parameters": {
+													"FileSystem": {
+														"value": "@item().dataLakeContainer",
+														"type": "Expression"
+													},
+													"FilePath": {
+														"value": "@concat(\nitem().dataLakeDirectory,'/',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),0,4),'/',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),4,2),'/',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),6,2),'/'\n)",
+														"type": "Expression"
+													},
+													"FileName": {
+														"value": "@concat(item().nomeArquivo,'_',\nreplace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),'.',item().extensao)\n\n",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									},
+									{
+										"name": "LOG SUCESSO INCREMENTAL",
+										"type": "ExecutePipeline",
+										"dependsOn": [
+											{
+												"activity": "CARGA INCREMENTAL",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"userProperties": [],
+										"typeProperties": {
+											"waitOnCompletion": true,
+											"parameters": {
+												"PAR_DATA_HORA_INICIO": {
+													"value": "@variables('VAR_DATA_HORA_INICIO')",
+													"type": "Expression"
+												},
+												"PAR_DATA_HORA_FINAL": {
+													"value": "@replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_TEMPO_EXECUCAO": {
+													"value": "@replace(string(convertTimeZone(pipeline().TriggerTime,'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_ID_EXECUCAO": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"PAR_NOME_ADF": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"PAR_NOME_CONTAINER": {
+													"value": "CARGA INCREMENTAL",
+													"type": "Expression"
+												},
+												"PAR_NOME_PIPELINE": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"PAR_NOME_PROCESSO": {
+													"value": "@item().nomeProcesso",
+													"type": "Expression"
+												},
+												"PAR_ID_TRIGGER": {
+													"value": "@pipeline().TriggerId",
+													"type": "Expression"
+												},
+												"PAR_NOME_TRIGGER": {
+													"value": "@pipeline().TriggerName",
+													"type": "Expression"
+												},
+												"PAR_COMANDO_SQL": {
+													"value": "@concat('select * from ',\nitem().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_NOME_TABELA_ORIGEM": {
+													"value": "@concat(item().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_QUANTIDADE_REGISTROS": {
+													"value": "@{activity('CARGA INCREMENTAL').output.rowsCopied}",
+													"type": "Expression"
+												},
+												"PAR_TIPO_FINALIZACAO": "SUCESSO",
+												"PAR_ERROR_CODE": "0",
+												"PAR_ERROR_MESSAGE": {
+													"value": "PROCESSO SEM FALHA",
+													"type": "Expression"
+												}
+											}
+										}
+									},
+									{
+										"name": "LOG FALHA INCREMENTAL",
+										"type": "ExecutePipeline",
+										"dependsOn": [
+											{
+												"activity": "CARGA INCREMENTAL",
+												"dependencyConditions": [
+													"Failed"
+												]
+											}
+										],
+										"userProperties": [],
+										"typeProperties": {
+											"waitOnCompletion": true,
+											"parameters": {
+												"PAR_DATA_HORA_INICIO": {
+													"value": "@variables('VAR_DATA_HORA_INICIO')",
+													"type": "Expression"
+												},
+												"PAR_DATA_HORA_FINAL": {
+													"value": "@replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_TEMPO_EXECUCAO": {
+													"value": "@replace(string(convertTimeZone(pipeline().TriggerTime,'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_ID_EXECUCAO": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"PAR_NOME_ADF": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"PAR_NOME_CONTAINER": {
+													"value": "CARGA INCREMENTAL",
+													"type": "Expression"
+												},
+												"PAR_NOME_PIPELINE": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"PAR_NOME_PROCESSO": {
+													"value": "@item().nomeProcesso",
+													"type": "Expression"
+												},
+												"PAR_ID_TRIGGER": {
+													"value": "@pipeline().TriggerId",
+													"type": "Expression"
+												},
+												"PAR_NOME_TRIGGER": {
+													"value": "@pipeline().TriggerName",
+													"type": "Expression"
+												},
+												"PAR_COMANDO_SQL": {
+													"value": "@concat('select * from ',\nitem().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_NOME_TABELA_ORIGEM": {
+													"value": "@concat(item().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_QUANTIDADE_REGISTROS": {
+													"value": "0",
+													"type": "Expression"
+												},
+												"PAR_TIPO_FINALIZACAO": "FALHA",
+												"PAR_ERROR_CODE": {
+													"value": "@{activity('CARGA INCREMENTAL').error.errorCode}",
+													"type": "Expression"
+												},
+												"PAR_ERROR_MESSAGE": {
+													"value": "@{activity('CARGA INCREMENTAL').error.message}",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "CARGA COMPLETA",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "@concat('select * from ',\nitem().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "ParquetSink",
+												"storeSettings": {
+													"type": "AzureBlobFSWriteSettings"
+												},
+												"formatSettings": {
+													"type": "ParquetWriteSettings"
+												}
+											},
+											"enableStaging": false
+										},
+										"outputs": [
+											{
+												"referenceName": "RAW_DATA_PARQUET",
+												"type": "DatasetReference",
+												"parameters": {
+													"FileSystem": {
+														"value": "@item().dataLakeContainer",
+														"type": "Expression"
+													},
+													"FilePath": {
+														"value": "@concat(\nitem().dataLakeDirectory,'/',\nitem().nomeTabelaOrigem,'/',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),0,4),'/',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),4,2),'/',\nsubstring(replace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),6,2),'/'\n)",
+														"type": "Expression"
+													},
+													"FileName": {
+														"value": "@concat(item().nomeArquivo,'_',\nreplace(replace(replace(replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',''),'.',''),'-',''),':',''),'.',item().extensao)\n\n",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									},
+									{
+										"name": "LOG SUCESSO COMPLETA",
+										"type": "ExecutePipeline",
+										"dependsOn": [
+											{
+												"activity": "CARGA COMPLETA",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"userProperties": [],
+										"typeProperties": {
+											"waitOnCompletion": true,
+											"parameters": {
+												"PAR_DATA_HORA_INICIO": {
+													"value": "@variables('VAR_DATA_HORA_INICIO')",
+													"type": "Expression"
+												},
+												"PAR_DATA_HORA_FINAL": {
+													"value": "@replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_TEMPO_EXECUCAO": {
+													"value": "@replace(string(convertTimeZone(pipeline().TriggerTime,'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_ID_EXECUCAO": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"PAR_NOME_ADF": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"PAR_NOME_CONTAINER": {
+													"value": "CARGA COMPLETA",
+													"type": "Expression"
+												},
+												"PAR_NOME_PIPELINE": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"PAR_NOME_PROCESSO": {
+													"value": "@item().nomeProcesso",
+													"type": "Expression"
+												},
+												"PAR_ID_TRIGGER": {
+													"value": "@pipeline().TriggerId",
+													"type": "Expression"
+												},
+												"PAR_NOME_TRIGGER": {
+													"value": "@pipeline().TriggerName",
+													"type": "Expression"
+												},
+												"PAR_COMANDO_SQL": {
+													"value": "@concat('select * from ',\nitem().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_NOME_TABELA_ORIGEM": {
+													"value": "@concat(item().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_QUANTIDADE_REGISTROS": {
+													"value": "@{activity('CARGA COMPLETA').output.rowsCopied}",
+													"type": "Expression"
+												},
+												"PAR_TIPO_FINALIZACAO": "SUCESSO",
+												"PAR_ERROR_CODE": "0",
+												"PAR_ERROR_MESSAGE": {
+													"value": "PROCESSO SEM FALHA",
+													"type": "Expression"
+												}
+											}
+										}
+									},
+									{
+										"name": "LOG FALHA COMPLETA",
+										"type": "ExecutePipeline",
+										"dependsOn": [
+											{
+												"activity": "CARGA COMPLETA",
+												"dependencyConditions": [
+													"Failed"
+												]
+											}
+										],
+										"userProperties": [],
+										"typeProperties": {
+											"waitOnCompletion": true,
+											"parameters": {
+												"PAR_DATA_HORA_INICIO": {
+													"value": "@variables('VAR_DATA_HORA_INICIO')",
+													"type": "Expression"
+												},
+												"PAR_DATA_HORA_FINAL": {
+													"value": "@replace(string(convertTimeZone(utcnow(),'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_TEMPO_EXECUCAO": {
+													"value": "@replace(string(convertTimeZone(pipeline().TriggerTime,'UTC','E. South America Standard Time') ),'T',' ')",
+													"type": "Expression"
+												},
+												"PAR_ID_EXECUCAO": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"PAR_NOME_ADF": {
+													"value": "@pipeline().DataFactory",
+													"type": "Expression"
+												},
+												"PAR_NOME_CONTAINER": {
+													"value": "CARGA COMPLETA",
+													"type": "Expression"
+												},
+												"PAR_NOME_PIPELINE": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"PAR_NOME_PROCESSO": {
+													"value": "@item().nomeProcesso",
+													"type": "Expression"
+												},
+												"PAR_ID_TRIGGER": {
+													"value": "@pipeline().TriggerId",
+													"type": "Expression"
+												},
+												"PAR_NOME_TRIGGER": {
+													"value": "@pipeline().TriggerName",
+													"type": "Expression"
+												},
+												"PAR_COMANDO_SQL": {
+													"value": "@concat('select * from ',\nitem().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_NOME_TABELA_ORIGEM": {
+													"value": "@concat(item().nomeSchemaOrigem,'.',\nitem().nomeTabelaOrigem)",
+													"type": "Expression"
+												},
+												"PAR_QUANTIDADE_REGISTROS": {
+													"value": "0",
+													"type": "Expression"
+												},
+												"PAR_TIPO_FINALIZACAO": "FALHA",
+												"PAR_ERROR_CODE": {
+													"value": "@{activity('CARGA COMPLETA').error.errorCode}",
+													"type": "Expression"
+												},
+												"PAR_ERROR_MESSAGE": {
+													"value": "@{activity('CARGA COMPLETA').error.message}",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"VAR_DATA_HORA_INICIO": {
+				"type": "String"
+			},
+			"VAR_DATA_REFERENCIA": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "MODELO"
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-12-16T22:31:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
