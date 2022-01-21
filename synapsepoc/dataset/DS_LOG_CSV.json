@@ -3,7 +3,11 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "TripFaresDataLakeStorageLinkedService",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"keyVaultName": "kvdataexjh77rhzzkvukipoc",
+				"datalakeAccountName": "dataexjh77rhzzkvukipoc"
+			}
 		},
 		"parameters": {
 			"nome_arquivo": {
