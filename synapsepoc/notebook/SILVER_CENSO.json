@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3c9f6f24-2159-43ef-8c82-116ea5a7ce92"
+				"spark.autotune.trackingId": "a3dc1d63-e1a1-4bda-a895-27857005da6a"
 			}
 		},
 		"metadata": {
@@ -72,13 +72,9 @@
 					"month = date.strftime(\"%m\")\r\n",
 					"day = date.strftime(\"%d\")\r\n",
 					"time = date.strftime(\"%H:%M:%S\")\r\n",
-					"date_time = date.strftime(\"%m/%d/%Y, %H:%M:%S\")\r\n",
-					"\r\n",
-					"\r\n",
-					"\r\n",
-					""
+					"date_time = date.strftime(\"%m/%d/%Y, %H:%M:%S\")"
 				],
-				"execution_count": 50
+				"execution_count": 12
 			},
 			{
 				"cell_type": "markdown",
@@ -103,12 +99,74 @@
 					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/2022/01/21/*.parquet\"\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
-					"display(df.limit(2))\r\n",
+					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo\"\r\n",
-					"df.write.mode('overwrite').parquet(path) "
+					"df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df2.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/\"\r\n",
+					"df2.write.mode('overwrite').parquet(path) "
 				],
-				"execution_count": 51
+				"execution_count": 27
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA CURSO REGIAO **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoRegiao = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/regiao/regiao/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoRegiao, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"#df.show()\r\n",
+					"\r\n",
+					"df2 = spark.createDataFrame(df.select('regiao', 'estado' , 'cod_uf').distinct().collect())\r\n",
+					"print(df2.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/regiao/\"\r\n",
+					"df2.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 37
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": 32
 			}
 		]
 	}
