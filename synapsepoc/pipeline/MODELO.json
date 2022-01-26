@@ -656,6 +656,39 @@
 					},
 					"snapshot": true
 				}
+			},
+			{
+				"name": "GOLD_CENSO",
+				"type": "SynapseNotebook",
+				"dependsOn": [
+					{
+						"activity": "SILVER_CENSO",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "SILVER_CENSO",
+						"type": "NotebookReference"
+					},
+					"parameters": {
+						"origem": {
+							"value": "",
+							"type": "string"
+						}
+					},
+					"snapshot": true
+				}
 			}
 		],
 		"variables": {
