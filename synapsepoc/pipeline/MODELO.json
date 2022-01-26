@@ -678,7 +678,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "SILVER_CENSO",
+						"referenceName": "GOLD_CENSO",
 						"type": "NotebookReference"
 					},
 					"parameters": {
