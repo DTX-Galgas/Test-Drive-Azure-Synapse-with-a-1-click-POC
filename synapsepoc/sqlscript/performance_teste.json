@@ -1,5 +1,5 @@
 {
-	"name": "performance teste",
+	"name": "performance_teste",
 	"properties": {
 		"content": {
 			"query": "\n select count(*) FROM [dbo].[FaresData_Slow2] \n select count(*) FROM [dbo].[FaresData_Fast2] \n\nselect \n    min (mta_tax) mta_tax,\n    max(total_amount) total_amount ,\n    avg(id) id_avg,\n    count(distinct surcharge) surcharge\nfrom dbo.FaresData_Fast2\ngroup by [payment_type]\n\nselect \n    min (mta_tax) mta_tax,\n    max(total_amount) total_amount ,\n    avg(id) id_avg,\n    count(distinct surcharge) surcharge\nfrom dbo.FaresData_Slow2\ngroup by [payment_type]",
