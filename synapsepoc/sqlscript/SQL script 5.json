@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 5",
+	"properties": {
+		"content": {
+			"query": "select \n    min (mta_tax) id,\n    max(total_amount) total_amount ,\n    avg(id) id_avg,\n    count(distinct surcharge) surcharge\nfrom dbo.FaresData_Fast\ngroup by [payment_type]\n\nselect \n    min (mta_tax) id,\n    max(total_amount) total_amount ,\n    avg(id) id_avg,\n    count(distinct surcharge) surcharge\nfrom dbo.FaresData_Slow\ngroup by [payment_type]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataexjh77rhzzkvukipocws1p1",
+				"poolName": "dataexjh77rhzzkvukipocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

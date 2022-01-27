@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 6",
+	"properties": {
+		"content": {
+			"query": "SET ANSI_NULLS ON\nGO\nSET QUOTED_IDENTIFIER ON\nGO\n\nCREATE TABLE [dbo].[FaresData_Fast]\n( \n\t[id] int ,\n\t[medallion] [varchar](255)  NULL,\n\t[hack_license] [varchar](255)  NULL,\n\t[vendor_id] [varchar](255)  NULL,\n\t[pickup_datetime] [varchar](255)  NULL,\n\t[payment_type] [varchar](255)  NULL,\n\t[fare_amount] [varchar](255)  NULL,\n\t[surcharge] [varchar](255)  NULL,\n\t[mta_tax] [varchar](255)  NULL,\n\t[tip_amount] [varchar](255)  NULL,\n\t[tolls_amount] [varchar](255)  NULL,\n\t[total_amount] [varchar](255)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = HASH ([id]),\n\tCLUSTERED COLUMNSTORE INDEX\n)\nGO\n\n insert into [dbo].[FaresData_Fast] \n SELECT  1+id  id\n\t,[medallion]\n\t,[hack_license]\n\t,[vendor_id]\n\t,[pickup_datetime]\n\t,[payment_type]\n\t,[fare_amount]\n\t,[surcharge]\n\t,[mta_tax]\n\t,[tip_amount]\n\t,[tolls_amount]\n\t,[total_amount]\n FROM [dbo].[FaresData_Fast] \n\n\n CREATE TABLE [dbo].[FaresData_Slow]\n( \n\t[id] int ,\n\t[medallion] [varchar](255)  NULL,\n\t[hack_license] [varchar](255)  NULL,\n\t[vendor_id] [varchar](255)  NULL,\n\t[pickup_datetime] [varchar](255)  NULL,\n\t[payment_type] [varchar](255)  NULL,\n\t[fare_amount] [varchar](255)  NULL,\n\t[surcharge] [varchar](255)  NULL,\n\t[mta_tax] [varchar](255)  NULL,\n\t[tip_amount] [varchar](255)  NULL,\n\t[tolls_amount] [varchar](255)  NULL,\n\t[total_amount] [varchar](255)  NULL\n)\nWITH\n(\n\tDISTRIBUTION = ROUND_ROBIN,\n\tHEAP\n)\nGO\n insert into [dbo].[FaresData_Slow] \n SELECT  1 id,  *\n FROM [dbo].[FaresData]\n\n  insert into [dbo].[FaresData_Slow] \n SELECT  1+id  id\n\t,[medallion]\n\t,[hack_license]\n\t,[vendor_id]\n\t,[pickup_datetime]\n\t,[payment_type]\n\t,[fare_amount]\n\t,[surcharge]\n\t,[mta_tax]\n\t,[tip_amount]\n\t,[tolls_amount]\n\t,[total_amount]\n FROM [dbo].[FaresData_Slow] \n go \n\n select count(*) FROM [dbo].[FaresData_Slow] \n select count(*) FROM [dbo].[FaresData_Fast] \n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataexjh77rhzzkvukipocws1p1",
+				"poolName": "dataexjh77rhzzkvukipocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
