@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c12d3044-c432-4234-83f7-1ffad41c8823"
+				"spark.autotune.trackingId": "6b6c7907-8504-4a93-8751-b625bac2f317"
 			}
 		},
 		"metadata": {
@@ -86,7 +86,7 @@
 					}
 				},
 				"source": [
-					"# **SILVER : TABELA CURSO CENSO **"
+					"# **SILVER : TABELA 3CORACOES KNA1 **"
 				]
 			},
 			{
@@ -95,17 +95,17 @@
 					"collapsed": false
 				},
 				"source": [
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/2022/01/21/*.parquet\"\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNA1/KNA1/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNA1/KNA1/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
-					"print(df2.count())\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/\"\r\n",
-					"df2.write.mode('overwrite').parquet(path) "
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNA1/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 27
 			},
@@ -119,7 +119,7 @@
 					}
 				},
 				"source": [
-					"# **SILVER : TABELA CURSO REGIAO **"
+					"# **SILVER : TABELA 3CORACOES KNVV **"
 				]
 			},
 			{
@@ -136,19 +136,32 @@
 					}
 				},
 				"source": [
-					"locationCursoRegiao = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/regiao/regiao/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNVV/KNVV/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNVV/KNVV/2022/03/08/*.parquet\r\n",
 					"\r\n",
-					"df = spark.read.load(locationCursoRegiao, format='parquet')\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
-					"#df.show()\r\n",
 					"\r\n",
-					"df2 = spark.createDataFrame(df.select('regiao', 'estado' , 'cod_uf').distinct().collect())\r\n",
-					"print(df2.count())\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/regiao/\"\r\n",
-					"df2.write.mode('overwrite').parquet(path) "
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNVV/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 37
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBAK **"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -164,9 +177,143 @@
 					}
 				},
 				"source": [
-					""
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBAK/VBAK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBAK/VBAK/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBAK/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
 				],
-				"execution_count": 32
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBPA **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBPA/VBPA/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBPA/VBPA/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBPA/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBRK **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/VBRK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/VBRK/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBRP **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRP/VBRP/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRP/VBRP/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRP/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": null
 			}
 		]
 	}
