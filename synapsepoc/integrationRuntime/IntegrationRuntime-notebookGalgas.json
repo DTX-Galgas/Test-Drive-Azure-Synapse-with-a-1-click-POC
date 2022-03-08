@@ -1,0 +1,6 @@
+{
+	"name": "IntegrationRuntime-notebookGalgas",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
