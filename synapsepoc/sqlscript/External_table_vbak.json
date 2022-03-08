@@ -1,0 +1,17 @@
+{
+	"name": "External_table_vbak",
+	"properties": {
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://gold@dataexjh77rhzzkvukipoc.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE vbak (\n\t[AUBEL] int,\n\t[BSTDK] nvarchar(4000),\n\t[ERDAT] nvarchar(4000),\n\t[VBTYP] int,\n\t[AUART] int,\n\t[AUGRU] int,\n\t[VKGRP] int,\n\t[VKBUR] int\n\t)\n\tWITH (\n\tLOCATION = '3caracoes/VBAK/*.parquet',\n\tDATA_SOURCE = [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM dbo.vbak\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dw3coracoes",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
