@@ -1,0 +1,17 @@
+{
+	"name": "External Table kna1",
+	"properties": {
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://gold@dataexjh77rhzzkvukipoc.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE kna1 (\n\t[KUNNR] int,\n\t[STCD1] int,\n\t[STCD2] int,\n\t[NAME1] nvarchar(4000),\n\t[ADRNR] int,\n\t[STRAS] nvarchar(4000),\n\t[PSTLZ] nvarchar(4000),\n\t[TELF1] nvarchar(4000),\n\t[ORT02] nvarchar(4000),\n\t[ORT01] nvarchar(4000),\n\t[REGIO] nvarchar(4000),\n\t[LAND1] nvarchar(4000),\n\t[KTOKD] nvarchar(4000),\n\t[KATR5] int,\n\t[KATR6] int,\n\t[LOEVM] int,\n\t[AUFSD] int,\n\t[ERDAT] nvarchar(4000),\n\t[FAKSD] int\n\t)\n\tWITH (\n\tLOCATION = '3caracoes/KNA1/*.parquet',\n\tDATA_SOURCE = [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM dbo.kna1\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dw3coracoes",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
