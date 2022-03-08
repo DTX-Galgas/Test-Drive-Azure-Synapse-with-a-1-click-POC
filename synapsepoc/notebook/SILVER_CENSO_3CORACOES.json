@@ -1,0 +1,173 @@
+{
+	"name": "SILVER_CENSO_3CORACOES",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "ws1sparkpool1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "56g",
+			"driverCores": 8,
+			"executorMemory": "56g",
+			"executorCores": 8,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "c12d3044-c432-4234-83f7-1ffad41c8823"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/c7d85717-1d29-45e6-a11e-d1784ff95266/resourceGroups/rg_bootcamp_we/providers/Microsoft.Synapse/workspaces/dataexjh77rhzzkvukipocws1/bigDataPools/ws1sparkpool1",
+				"name": "ws1sparkpool1",
+				"type": "Spark",
+				"endpoint": "https://dataexjh77rhzzkvukipocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 5,
+				"cores": 8,
+				"memory": 56,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"import datetime\r\n",
+					"import os\r\n",
+					"\r\n",
+					"currentDateTime = datetime.datetime.now()\r\n",
+					"date = currentDateTime.date()\r\n",
+					"year = date.strftime(\"%Y\")\r\n",
+					"month = date.strftime(\"%m\")\r\n",
+					"day = date.strftime(\"%d\")\r\n",
+					"time = date.strftime(\"%H:%M:%S\")\r\n",
+					"date_time = date.strftime(\"%m/%d/%Y, %H:%M:%S\")"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA CURSO CENSO **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/censo/2022/01/21/*.parquet\"\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df2.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/censo/\"\r\n",
+					"df2.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 27
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA CURSO REGIAO **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoRegiao = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/regiao/regiao/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoRegiao, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"#df.show()\r\n",
+					"\r\n",
+					"df2 = spark.createDataFrame(df.select('regiao', 'estado' , 'cod_uf').distinct().collect())\r\n",
+					"print(df2.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/curso/regiao/\"\r\n",
+					"df2.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 37
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": 32
+			}
+		]
+	}
+}
