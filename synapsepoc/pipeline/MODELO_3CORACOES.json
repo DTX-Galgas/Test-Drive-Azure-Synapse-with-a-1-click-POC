@@ -47,7 +47,7 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "ORIGEM_DESTINO_ADVENTUREWORKS",
+						"referenceName": "ORIGEM_DESTINO_3CORACOES",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false

@@ -1,0 +1,63 @@
+{
+	"name": "ORIGEM_DESTINO_3CORACOES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TripFaresDataLakeStorageLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "origem3coracoes",
+				"folderPath": "origem_destino/database",
+				"fileSystem": "adf-config"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"nomeProcesso": {
+					"type": "string"
+				},
+				"habilitaETL": {
+					"type": "string"
+				},
+				"reprocessaCarga": {
+					"type": "string"
+				},
+				"dataReferencia": {
+					"type": "string"
+				},
+				"nomeSchemaOrigem": {
+					"type": "string"
+				},
+				"nomeTabelaOrigem": {
+					"type": "string"
+				},
+				"dataLakeContainer": {
+					"type": "string"
+				},
+				"dataLakeDirectory": {
+					"type": "string"
+				},
+				"colunaDataReferencia": {
+					"type": "string"
+				},
+				"nomeArquivo": {
+					"type": "string"
+				},
+				"extensao": {
+					"type": "string"
+				},
+				"tipoCarga": {
+					"type": "string"
+				},
+				"delta": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
