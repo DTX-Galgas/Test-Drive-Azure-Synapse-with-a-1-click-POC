@@ -197,7 +197,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DS_ORIGEM_SQL_SERVER",
+												"referenceName": "DS_ORIGEM_3CORACOES",
 												"type": "DatasetReference"
 											}
 										],
@@ -430,7 +430,7 @@
 										},
 										"inputs": [
 											{
-												"referenceName": "DS_ORIGEM_SQL_SERVER",
+												"referenceName": "DS_ORIGEM_3CORACOES",
 												"type": "DatasetReference"
 											}
 										],

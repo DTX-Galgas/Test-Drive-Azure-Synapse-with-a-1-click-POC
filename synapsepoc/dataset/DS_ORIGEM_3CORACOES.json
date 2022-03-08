@@ -1,0 +1,12 @@
+{
+	"name": "DS_ORIGEM_3CORACOES",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL_ORIGEM_3CORACOES",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
