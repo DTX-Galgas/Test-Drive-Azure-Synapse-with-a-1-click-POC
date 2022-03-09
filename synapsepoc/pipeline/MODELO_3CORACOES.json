@@ -645,7 +645,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "SILVER_CENSO_3CORACOES",
+						"referenceName": "SILVER_3CORACOES",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -654,11 +654,7 @@
 							"type": "string"
 						}
 					},
-					"snapshot": true,
-					"sparkPool": {
-						"referenceName": "ws1sparkpool1",
-						"type": "BigDataPoolReference"
-					}
+					"snapshot": true
 				}
 			},
 			{
@@ -682,7 +678,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "GOLD_CENSO_3CORACOES",
+						"referenceName": "GOLD_3CORACOES",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -691,11 +687,7 @@
 							"type": "string"
 						}
 					},
-					"snapshot": true,
-					"sparkPool": {
-						"referenceName": "ws1sparkpool1",
-						"type": "BigDataPoolReference"
-					}
+					"snapshot": true
 				}
 			}
 		],
