@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a66133fb-ca0f-4868-841e-5dae2f112b5f"
+				"spark.autotune.trackingId": "3fecb390-f858-48b6-84dc-87372db855ae"
 			}
 		},
 		"metadata": {
@@ -40,7 +40,7 @@
 					"authResource": "https://dev.azuresynapse.net"
 				},
 				"sparkVersion": "2.4",
-				"nodeCount": 5,
+				"nodeCount": 3,
 				"cores": 8,
 				"memory": 56,
 				"automaticScaleJobs": false
@@ -264,14 +264,14 @@
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
-					"\r\n",
-					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
-					"print(df.count())\r\n",
+					"#display(df)\r\n",
+					"#df2 = spark.createDataFrame(df.select('VBELN','FKDAT','FKART','KNUMV','KURRF','BUKRS','KUNAG','BSTNK_VF','XBLNR','BUPLA','FKSTO','VKORG','WAERK','VTWEG','ZTERM','ZUONR','ZLSCH','ERDAT').distinct().collect())\r\n",
+					"#print(df2.count())\r\n",
 					"\r\n",
 					"path = \"abfss://gold@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
-				"execution_count": 16
+				"execution_count": 40
 			},
 			{
 				"cell_type": "markdown",

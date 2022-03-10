@@ -1,0 +1,17 @@
+{
+	"name": "tablas-3-Coracoes",
+	"properties": {
+		"content": {
+			"query": "alter proc tablas_3Corações\n\nas\n--DROP TABLE dbo.kna1\n\nIF NOT EXISTS (SELECT * FROM sys.objects O JOIN sys.schemas S ON O.schema_id = S.schema_id WHERE O.NAME = 'kna1' AND O.TYPE = 'U' AND S.NAME = 'dbo')\n\nCREATE TABLE dbo.kna1\n\t(\n\t [Código Cliente] int,\n\t [Nº ID fiscal 1] int,\n\t [Nº ID fiscal 2] int,\n\t [Nome 1] nvarchar(4000),\n\t [Endereço] int,\n\t [Rua e nº] nvarchar(4000),\n\t [Código postal] nvarchar(4000),\n\t [1º Nº telefone] nvarchar(4000),\n\t [Bairro] nvarchar(4000),\n\t [Local] nvarchar(4000),\n\t [Região] nvarchar(4000),\n\t [Chave do país] nvarchar(4000),\n\t [Grupo de contas do cliente] nvarchar(4000),\n\t [Área de Atendimento] int,\n\t [Atributo 6] int,\n\t [Marcação p/eliminar] int,\n\t [Bloqueio de ordem] int,\n\t [Data de criação do registro] nvarchar(4000),\n\t [Bloqueio de faturamento] int\n\t)\nWITH\n\t(\n\tDISTRIBUTION = ROUND_ROBIN,\n\t CLUSTERED COLUMNSTORE INDEX\n\t -- HEAP\n\t)\n\ntruncate table dbo.kna1\n--Uncomment the 4 lines below to create a stored procedure for data pipeline orchestration​\n--CREATE PROC bulk_load_kna1\n--AS\n--BEGIN\nCOPY INTO dbo.kna1\n([Código Cliente] 1, [Nº ID fiscal 1] 2, [Nº ID fiscal 2] 3 , [Nome 1] 4, [Endereço] 5, [Rua e nº] 6, [Código postal] 7, [1º Nº telefone] 8, [Bairro] 9, [Local] 10, [Região] 11, [Chave do país] 12, [Grupo de contas do cliente] 13, [Área de Atendimento] 14, [Atributo 6] 15,  [Marcação p/eliminar] 16, [Bloqueio de ordem] 17, [Data de criação do registro] 18, [Bloqueio de faturamento] 19 )\nFROM 'https://dataexjh77rhzzkvukipoc.dfs.core.windows.net/gold/3caracoes/KNA1/*.parquet'\nWITH\n(\n\tFILE_TYPE = 'PARQUET'\n\t,MAXERRORS = 0\n)\n--END\nGO\nSELECT count(*) FROM dbo.kna1\nSELECT TOP 10 * FROM dbo.kna1\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataexjh77rhzzkvukipocws1p1",
+				"poolName": "dataexjh77rhzzkvukipocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
