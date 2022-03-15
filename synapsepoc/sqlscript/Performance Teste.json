@@ -2,13 +2,13 @@
 	"name": "Performance Teste",
 	"properties": {
 		"content": {
-			"query": "Select \nvbpa.lifnr,\nCOUNT(VBRK.KUNAG) AS Qtd_Cliente\nfrom vbrk vbrk\ninner join vbrp vbrp on vbrk.vbeln = vbrp.vbeln\ninner join vbpa vbpa on vbpa.vbeln = vbrk.vbeln\nwhere vbpa.parvw = 'TL' and vbrp.kowrr <> 'Y' \ngroup by vbpa.lifnr    \nhaving COUNT(VBRK.KUNAG) >= 4\n\n--Serverless 55seg \n--dedicado 100 dwu 32seg\n\nSELECT vbpa.lifnr,\n       vbrp.matnr,\n       vbrk.vtweg,\n       Sum( cast ( Replace(  vbrp.netwr   , ',', '.') as float)) AS SOMA_NETWR,\n       Sum( cast (Replace(  vbrp.kzwi2  , ',', '.') as float)) AS soma_kzwi2,\n       Sum( cast (Replace(vbrp.kzwi5  , ',', '.') as float)) AS soma_kzwi5,\n       Sum( cast (Replace (vbrp.kzwi6 , ',', '.') as float)) AS soma_kzwi6\nFROM   vbrk vbrk\n       INNER JOIN vbrp vbrp\n               ON vbrk.vbeln = vbrp.vbeln\n       INNER JOIN vbpa vbpa\n               ON vbpa.vbeln = vbrk.vbeln\nWHERE  vbpa.parvw = 'TL'\n       AND vbrp.kowrr <> 'Y'\nGROUP  BY vbpa.lifnr,\n          vbrp.matnr,\n          vbrk.vtweg \n\n--Serverless 55seg \n--dedicado 100 dwu 32seg",
+			"query": "Select \nvbpa.lifnr,\nCOUNT(VBRK.KUNAG) AS Qtd_Cliente\nfrom vbrk vbrk\ninner join vbrp vbrp on vbrk.vbeln = vbrp.vbeln\ninner join vbpa vbpa on vbpa.vbeln = vbrk.vbeln\nwhere vbpa.parvw = 'TL' and vbrp.kowrr <> 'Y' \ngroup by vbpa.lifnr    \nhaving COUNT(VBRK.KUNAG) >= 4\n\n--Serverless 1:03 \n--dedicado 100 dwu 6seg\n\nSELECT vbpa.lifnr,\n       vbrp.matnr,\n       vbrk.vtweg,\n       Sum( cast ( Replace(  vbrp.netwr   , ',', '.') as float)) AS SOMA_NETWR,\n       Sum( cast (Replace(  vbrp.kzwi2  , ',', '.') as float)) AS soma_kzwi2,\n       Sum( cast (Replace(vbrp.kzwi5  , ',', '.') as float)) AS soma_kzwi5,\n       Sum( cast (Replace (vbrp.kzwi6 , ',', '.') as float)) AS soma_kzwi6\nFROM   vbrk vbrk\n       INNER JOIN vbrp vbrp\n               ON vbrk.vbeln = vbrp.vbeln\n       INNER JOIN vbpa vbpa\n               ON vbpa.vbeln = vbrk.vbeln\nWHERE  vbpa.parvw = 'TL'\n       AND vbrp.kowrr <> 'Y'\nGROUP  BY vbpa.lifnr,\n          vbrp.matnr,\n          vbrk.vtweg \n\n--Serverless 03min \n--dedicado 100 dwu 03:07",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "dataexjh77rhzzkvukipocws1p1",
-				"poolName": "dataexjh77rhzzkvukipocws1p1"
+				"databaseName": "dw3coracoes",
+				"poolName": "Built-in"
 			},
 			"resultLimit": 5000
 		},
