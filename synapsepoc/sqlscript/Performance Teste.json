@@ -7,8 +7,8 @@
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "dw3coracoes",
-				"poolName": "Built-in"
+				"databaseName": "dataexjh77rhzzkvukipocws1p1",
+				"poolName": "dataexjh77rhzzkvukipocws1p1"
 			},
 			"resultLimit": 5000
 		},
