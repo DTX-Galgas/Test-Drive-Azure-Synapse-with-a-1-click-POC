@@ -1,0 +1,17 @@
+{
+	"name": "VBPA_BULK",
+	"properties": {
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.objects O JOIN sys.schemas S ON O.schema_id = S.schema_id WHERE O.NAME = 'vbpa' AND O.TYPE = 'U' AND S.NAME = 'dbo')\nCREATE TABLE dbo.vbpa\n\t(\n\t [VBELN] int,\n\t [LIFNR] nvarchar(4000),\n\t [PARVW] nvarchar(4000)\n\t)\nWITH\n\t(\n\tDISTRIBUTION = ROUND_ROBIN,\n\t CLUSTERED COLUMNSTORE INDEX\n\t -- HEAP\n\t)\nGO\n\n--Uncomment the 4 lines below to create a stored procedure for data pipeline orchestration​\n--CREATE PROC bulk_load_vbpa\n--AS\n--BEGIN\n--drop table dbo.vbpa\ntruncate table dbo.vbpa\nCOPY INTO dbo.vbpa\n(VBELN 1, LIFNR 2, PARVW 3)\nFROM 'https://dataexjh77rhzzkvukipoc.dfs.core.windows.net/gold/3caracoes/VBPA/*.parquet'\nWITH\n(\n\tFILE_TYPE = 'PARQUET'\n\t,MAXERRORS = 0\n)\n--END\nGO\n\nSELECT TOP 100 * FROM dbo.vbpa\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dataexjh77rhzzkvukipocws1p1",
+				"poolName": "dataexjh77rhzzkvukipocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
