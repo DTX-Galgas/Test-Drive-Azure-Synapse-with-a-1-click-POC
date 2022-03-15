@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 9",
+	"properties": {
+		"content": {
+			"query": "Select \nvbpa.lifnr,\nCOUNT(VBRK.KUNAG) AS Qtd_Cliente\nfrom vbrk vbrk\ninner join vbrp vbrp on vbrk.vbeln = vbrp.vbeln\ninner join vbpa vbpa on vbpa.vbeln = vbrk.vbeln\nwhere vbpa.parvw = 'TL' and vbrp.kowrr <> 'Y' \ngroup by vbpa.lifnr    \nhaving COUNT(VBRK.KUNAG) >= 4\n\n--Serverless 55seg",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "dw3coracoes",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
