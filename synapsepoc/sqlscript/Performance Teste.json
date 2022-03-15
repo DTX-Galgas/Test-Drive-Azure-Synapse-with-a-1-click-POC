@@ -2,7 +2,7 @@
 	"name": "Performance Teste",
 	"properties": {
 		"content": {
-			"query": "Select \nvbpa.lifnr,\nCOUNT(VBRK.KUNAG) AS Qtd_Cliente\nfrom vbrk vbrk\ninner join vbrp vbrp on vbrk.vbeln = vbrp.vbeln\ninner join vbpa vbpa on vbpa.vbeln = vbrk.vbeln\nwhere vbpa.parvw = 'TL' and vbrp.kowrr <> 'Y' \ngroup by vbpa.lifnr    \nhaving COUNT(VBRK.KUNAG) >= 4\n\n--Serverless 55seg",
+			"query": "Select \nvbpa.lifnr,\nCOUNT(VBRK.KUNAG) AS Qtd_Cliente\nfrom vbrk vbrk\ninner join vbrp vbrp on vbrk.vbeln = vbrp.vbeln\ninner join vbpa vbpa on vbpa.vbeln = vbrk.vbeln\nwhere vbpa.parvw = 'TL' and vbrp.kowrr <> 'Y' \ngroup by vbpa.lifnr    \nhaving COUNT(VBRK.KUNAG) >= 4\n\n--Serverless 55seg \n--dedicado 100 dwu 32seg\n\nSELECT vbpa.lifnr,\n       vbrp.matnr,\n       vbrk.vtweg,\n       Sum( cast ( Replace(  vbrp.netwr   , ',', '.') as float)) AS SOMA_NETWR,\n       Sum( cast (Replace(  vbrp.kzwi2  , ',', '.') as float)) AS soma_kzwi2,\n       Sum( cast (Replace(vbrp.kzwi5  , ',', '.') as float)) AS soma_kzwi5,\n       Sum( cast (Replace (vbrp.kzwi6 , ',', '.') as float)) AS soma_kzwi6\nFROM   vbrk_original vbrk\n       INNER JOIN vbrp vbrp\n               ON vbrk.vbeln = vbrp.vbeln\n       INNER JOIN bbpa_original vbpa\n               ON vbpa.vbeln = vbrk.vbeln\nWHERE  vbpa.parvw = 'TL'\n       AND vbrp.kowrr <> 'Y'\nGROUP  BY vbpa.lifnr,\n          vbrp.matnr,\n          vbrk.vtweg ",
 			"metadata": {
 				"language": "sql"
 			},
