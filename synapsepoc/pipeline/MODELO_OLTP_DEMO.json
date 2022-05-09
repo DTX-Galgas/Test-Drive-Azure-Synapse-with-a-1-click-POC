@@ -1,5 +1,5 @@
 {
-	"name": "MODELO_3CORACOES",
+	"name": "MODELO_OLTP_DEMO",
 	"properties": {
 		"activities": [
 			{
@@ -47,7 +47,7 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "ORIGEM_DESTINO_3CORACOES",
+						"referenceName": "ORIGEM_DESTINO_OLTP_DEMO",
 						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
