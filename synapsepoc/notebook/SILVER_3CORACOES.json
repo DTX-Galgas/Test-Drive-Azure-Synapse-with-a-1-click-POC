@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "942d4329-1c46-46ad-9436-65683121ddd7"
+				"spark.autotune.trackingId": "af4e66b5-742d-4dcc-a2c0-f8cd3b432dc4"
 			}
 		},
 		"metadata": {
@@ -40,7 +40,7 @@
 					"authResource": "https://dev.azuresynapse.net"
 				},
 				"sparkVersion": "2.4",
-				"nodeCount": 5,
+				"nodeCount": 3,
 				"cores": 8,
 				"memory": 56,
 				"automaticScaleJobs": false
@@ -95,8 +95,8 @@
 					"collapsed": false
 				},
 				"source": [
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNA1/KNA1/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNA1/KNA1/2022/03/08/*.parquet\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNA1/KNA1/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNA1/KNA1/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
@@ -104,7 +104,7 @@
 					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNA1/\"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNA1/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 4
@@ -136,8 +136,8 @@
 					}
 				},
 				"source": [
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNVV/KNVV/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNVV/KNVV/2022/03/08/*.parquet\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNVV/KNVV/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNVV/KNVV/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
@@ -145,7 +145,7 @@
 					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/KNVV/\"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNVV/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 5
@@ -177,8 +177,8 @@
 					}
 				},
 				"source": [
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBAK/VBAK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBAK/VBAK/2022/03/08/*.parquet\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBAK/VBAK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBAK/VBAK/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
@@ -186,7 +186,7 @@
 					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBAK/\"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBAK/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 6
@@ -218,8 +218,8 @@
 					}
 				},
 				"source": [
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBPA/VBPA/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBPA/VBPA/2022/03/08/*.parquet\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBPA/VBPA/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBPA/VBPA/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
@@ -227,7 +227,7 @@
 					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBPA/\"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBPA/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 7
@@ -259,8 +259,8 @@
 					}
 				},
 				"source": [
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/VBRK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/VBRK/2022/03/08/*.parquet\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRK/VBRK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRK/VBRK/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
@@ -268,7 +268,7 @@
 					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRK/\"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRK/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 8
@@ -301,8 +301,8 @@
 				},
 				"source": [
 					"\r\n",
-					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRP/VBRP/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
-					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRP/VBRP/2022/03/08/*.parquet\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRP/VBRP/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRP/VBRP/2022/03/08/*.parquet\r\n",
 					"\r\n",
 					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
 					"print(df.count())\r\n",
@@ -310,7 +310,7 @@
 					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
 					"print(df.count())\r\n",
 					"\r\n",
-					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/3caracoes/VBRP/\"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRP/\"\r\n",
 					"df.write.mode('overwrite').parquet(path) "
 				],
 				"execution_count": 9
