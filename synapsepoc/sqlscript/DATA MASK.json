@@ -1,13 +1,13 @@
 {
-	"name": "SQL script 7",
+	"name": "DATA MASK",
 	"properties": {
 		"content": {
-			"query": "",
+			"query": "-- TF necessaria para habilitar o DDM\n\nDBCC TRACEON(209,219,-1)\n\n\n-- Criação da tabela\nCREATE TABLE [dbo].[Confidential](\n[ID] [int] NULL,\n[Name] [nvarchar](70)NULL,\n[CreditCard] [varchar](9)NULL,\n[Salary] [int] NULL,\n[Email] [nvarchar](60)NULL\n)ON [PRIMARY]\n\n--Inserção de dados select * from confidential\n\nINSERT INTO Confidential VALUES (1,'MAIA', '105264898', '12000', 'maia@maiacorp.com')\nINSERT INTO Confidential VALUES (1,'BRUNO', '346127233', '12000', 'bruno@brunocorp.com')\nINSERT INTO Confidential VALUES (1,'RENAN', '73494243', '12000', 'renan@renancorp.com')\nINSERT INTO Confidential VALUES (1,'BACON', '93454824', '12000', 'bacon@baconcorp.com')\nINSERT INTO Confidential VALUES (1,'MCLOVIN', '908562342', '12000', 'mclovin@mclovincorp.com')\n\n--Aplicação do DDM nas colunas\nALTER Table Confidential\nALTER COLUMN SALARY ADD MASKED WITH (FUNCTION='default()')\n\nALTER Table Confidential\nALTER COLUMN creditcard ADD MASKED WITH (FUNCTION='partial(2,\"XXXX\",2)')\n\nALTER Table Confidential\nALTER COLUMN email ADD MASKED WITH (FUNCTION='email()')\n\n\nselect * from Confidential\n-- Criaçãoo do usuario com permissões de acesso à tabela Confidential\n\nCREATE USER Randy WITHOUT LOGIN;\n\nGRANT SELECT ON Confidential TO Randy;\n\nexec ('SELECT * FROM Confidential') as user = 'Randy'\n\nSELECT * FROM CONFIDENTIAL;\n",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "dw3coracoes",
+				"databaseName": "DW_OLTP_DEMO",
 				"poolName": "Built-in"
 			},
 			"resultLimit": 5000
