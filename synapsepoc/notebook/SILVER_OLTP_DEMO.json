@@ -1,5 +1,5 @@
 {
-	"name": "SILVER_3CORACOES",
+	"name": "SILVER_OLTP_DEMO",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "af4e66b5-742d-4dcc-a2c0-f8cd3b432dc4"
+				"spark.autotune.trackingId": "c226df6d-9a12-49f1-966f-c4df54b2e45b"
 			}
 		},
 		"metadata": {

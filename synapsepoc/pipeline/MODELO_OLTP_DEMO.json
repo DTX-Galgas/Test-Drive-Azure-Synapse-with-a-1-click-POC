@@ -645,7 +645,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "SILVER_3CORACOES",
+						"referenceName": "SILVER_OLTP_DEMO",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -678,7 +678,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "GOLD_3CORACOES",
+						"referenceName": "GOLD_OLTP_DEMO",
 						"type": "NotebookReference"
 					},
 					"parameters": {
