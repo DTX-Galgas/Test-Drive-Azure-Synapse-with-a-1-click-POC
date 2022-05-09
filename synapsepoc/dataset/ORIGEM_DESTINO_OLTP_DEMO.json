@@ -1,5 +1,5 @@
 {
-	"name": "ORIGEM_DESTINO_3CORACOES",
+	"name": "ORIGEM_DESTINO_OLTP_DEMO",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "TripFaresDataLakeStorageLinkedService",
@@ -14,7 +14,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "origem3coracoes",
+				"fileName": "OLTP_DEMO",
 				"folderPath": "origem_destino/database",
 				"fileSystem": "adf-config"
 			}
