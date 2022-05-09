@@ -625,7 +625,7 @@
 				}
 			},
 			{
-				"name": "SILVER_3CORACOES",
+				"name": "SILVER_OLTP_DEMO",
 				"type": "SynapseNotebook",
 				"dependsOn": [
 					{
@@ -658,11 +658,11 @@
 				}
 			},
 			{
-				"name": "GOLD_3CORACOES",
+				"name": "GOLD_OLTP_DEMO",
 				"type": "SynapseNotebook",
 				"dependsOn": [
 					{
-						"activity": "SILVER_3CORACOES",
+						"activity": "SILVER_OLTP_DEMO",
 						"dependencyConditions": [
 							"Succeeded"
 						]
