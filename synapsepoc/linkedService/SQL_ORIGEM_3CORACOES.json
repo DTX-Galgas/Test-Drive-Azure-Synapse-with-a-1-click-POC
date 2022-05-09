@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=False;data source=.\\;initial catalog=3coracoes;user id=sa",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzOWQ3NDg3Yy00OGY1LTQ1NDYtYmY3OC0yNWUwMTE5MzYwMGIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"connectionString": "integrated security=False;data source=.\\;initial catalog=OLTP_DEMO;user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2YTE5NThlMS02OTVkLTQwOWUtOWIxMC03NDY3MDJhNDgyM2UiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "IntegrationRuntime-notebookGalgas",
