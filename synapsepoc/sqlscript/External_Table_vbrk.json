@@ -2,12 +2,12 @@
 	"name": "External_Table_vbrk",
 	"properties": {
 		"content": {
-			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://gold@dataexjh77rhzzkvukipoc.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE vbrk (\n\t[VBELN] int,\n\t[FKDAT] nvarchar(4000),\n\t[FKART] nvarchar(4000),\n\t[KNUMV] int,\n\t[KURRF] int,\n\t[BUKRS] int,\n\t[KUNAG] int,\n\t[BSTNK_VF] int,\n\t[XBLNR] int,\n\t[BUPLA] int,\n\t[FKSTO] int,\n\t[VKORG] int,\n\t[WAERK] int,\n\t[VTWEG] int,\n\t[ZTERM] int,\n\t[ZUONR] int,\n\t[ZLSCH] int,\n\t[ERDAT] nvarchar(4000)\n\t)\n\tWITH (\n\tLOCATION = '3caracoes/VBRK/*.parquet',\n\tDATA_SOURCE = [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM dbo.vbrk\nGO",
+			"query": "USE DW_OLTP_DEMO\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://gold@dataexjh77rhzzkvukipoc.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE vbrk (\n\t[VBELN] int,\n\t[FKDAT] nvarchar(4000),\n\t[FKART] nvarchar(4000),\n\t[KNUMV] int,\n\t[KURRF] int,\n\t[BUKRS] int,\n\t[KUNAG] int,\n\t[BSTNK_VF] int,\n\t[XBLNR] int,\n\t[BUPLA] int,\n\t[FKSTO] int,\n\t[VKORG] int,\n\t[WAERK] int,\n\t[VTWEG] int,\n\t[ZTERM] int,\n\t[ZUONR] int,\n\t[ZLSCH] int,\n\t[ERDAT] nvarchar(4000)\n\t)\n\tWITH (\n\tLOCATION = 'OLTP_DEMO/VBRK/*.parquet',\n\tDATA_SOURCE = [gold_dataexjh77rhzzkvukipoc_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM dbo.vbrk\nGO",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "dw3coracoes",
+				"databaseName": "DW_OLTP_DEMO",
 				"poolName": "Built-in"
 			},
 			"resultLimit": 5000
