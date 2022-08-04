@@ -1,0 +1,336 @@
+{
+	"name": "DHL - Arquivo",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "ws1sparkpool1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "56g",
+			"driverCores": 8,
+			"executorMemory": "56g",
+			"executorCores": 8,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "8b11bd73-141c-43b5-8537-3d8a54c82bd5"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/c7d85717-1d29-45e6-a11e-d1784ff95266/resourceGroups/rg_bootcamp_we/providers/Microsoft.Synapse/workspaces/dataexjh77rhzzkvukipocws1/bigDataPools/ws1sparkpool1",
+				"name": "ws1sparkpool1",
+				"type": "Spark",
+				"endpoint": "https://dataexjh77rhzzkvukipocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 3,
+				"cores": 8,
+				"memory": 56,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"import datetime\r\n",
+					"import os\r\n",
+					"\r\n",
+					"currentDateTime = datetime.datetime.now()\r\n",
+					"date = currentDateTime.date()\r\n",
+					"year = date.strftime(\"%Y\")\r\n",
+					"month = date.strftime(\"%m\")\r\n",
+					"day = date.strftime(\"%d\")\r\n",
+					"time = date.strftime(\"%H:%M:%S\")\r\n",
+					"date_time = date.strftime(\"%m/%d/%Y, %H:%M:%S\")"
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"import py7zr"
+				],
+				"execution_count": 11
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **Descompactar arquivo **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"locationArquivoCompactado = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/poc.7z\"\r\n",
+					"\r\n",
+					"import py7zr\r\n",
+					"with py7zr.SevenZipFile(locationArquivoCompactado, mode='r') as z:\r\n",
+					"    z.extractall()\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES KNVV **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNVV/KNVV/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNVV/KNVV/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/KNVV/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBAK **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBAK/VBAK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBAK/VBAK/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBAK/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 4
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBPA **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBPA/VBPA/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBPA/VBPA/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBPA/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 5
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBRK **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRK/VBRK/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRK/VBRK/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRK/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 6
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# **SILVER : TABELA 3CORACOES VBRP **"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"\r\n",
+					"locationCursoCenso = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRP/VBRP/\"+year+\"/\"+month+\"/\"+day+\"/*.parquet\"\r\n",
+					"#location = \"abfss://bronze@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRP/VBRP/2022/03/08/*.parquet\r\n",
+					"\r\n",
+					"df = spark.read.load(locationCursoCenso, format='parquet')\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"#df2 = spark.createDataFrame(df.select('uf', 'cod_uf' , 'cod_mun', 'nome_mun', 'populacao').distinct().collect())\r\n",
+					"print(df.count())\r\n",
+					"\r\n",
+					"path = \"abfss://silver@dataexjh77rhzzkvukipoc.dfs.core.windows.net/OLTP_DEMO/VBRP/\"\r\n",
+					"df.write.mode('overwrite').parquet(path) "
+				],
+				"execution_count": 7
+			}
+		]
+	}
+}
