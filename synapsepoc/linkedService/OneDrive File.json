@@ -1,0 +1,16 @@
+{
+	"name": "OneDrive File",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://dataexsqlserver-my.sharepoint.com/:f:/g/personal/bruno_galvincio_dataex_com_br/EsUeMxZP5LdNkcRDYJdKvVgBkRh67lmLXD0tjo2gDEP9sw?e=gSBQjs",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
