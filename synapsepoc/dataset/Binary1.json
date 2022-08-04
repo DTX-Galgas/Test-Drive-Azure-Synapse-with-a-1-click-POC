@@ -1,0 +1,22 @@
+{
+	"name": "Binary1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TripFaresDataLakeStorageLinkedService",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"keyVaultName": "kvdataexjh77rhzzkvukipoc",
+				"datalakeAccountName": "dataexjh77rhzzkvukipoc"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "dhl.rpt",
+				"fileSystem": "bronze"
+			}
+		}
+	}
+}
