@@ -1,0 +1,16 @@
+{
+	"name": "Onedrivefile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "OneDrive File",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		}
+	}
+}
